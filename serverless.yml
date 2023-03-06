@@ -1,0 +1,49 @@
+service: serverless
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-west-2
+  profile: default
+  memorySize: 256
+  stage: dev
+
+plugins:
+  - serverless-offline
+custom:
+  serverless-offline:
+    httpPort: 4000
+    stageVariables:
+      foo: "bar"
+
+functions:
+  createUser:
+    handler: handler.handler
+    description: "slspress offline example"
+    events:
+      - http:
+          path: /createUser
+          method: post
+          cors: true
+  deleteUser: 
+    handler: handler.handler
+    events:
+      - http: 
+          path: /deleteUser/{id}
+          method: delete
+          cors: true
+  getUser: 
+    handler: handler.handler
+    events:
+      - http: 
+          path: /getUser/{id}
+          method: get
+          cors: true
+  updateUser: 
+    handler: handler.handler
+    events:
+      - http: 
+          path: /updateUser/{id}
+          method: patch
+          cors: true
